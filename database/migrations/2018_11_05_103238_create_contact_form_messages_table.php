@@ -13,7 +13,7 @@ class CreateContactFormMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('contact_form_messages', function (Blueprint $table) {
+        Schema::create('contact_form_messages', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name');
@@ -32,8 +32,6 @@ class CreateContactFormMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('contact_form_messages', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('contact_form_messages');
     }
 }

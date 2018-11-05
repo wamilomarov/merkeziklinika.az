@@ -13,7 +13,7 @@ class CreateDocumentFormsTable extends Migration
      */
     public function up()
     {
-        Schema::table('document_forms', function (Blueprint $table) {
+        Schema::create('document_forms', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('type');
@@ -33,8 +33,6 @@ class CreateDocumentFormsTable extends Migration
      */
     public function down()
     {
-        Schema::table('document_forms', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('document_forms');
     }
 }

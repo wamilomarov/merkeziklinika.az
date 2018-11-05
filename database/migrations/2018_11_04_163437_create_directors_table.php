@@ -13,7 +13,7 @@ class CreateDirectorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('directors', function (Blueprint $table) {
+        Schema::create('directors', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('photo');
@@ -37,8 +37,6 @@ class CreateDirectorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('directors', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('directors');
     }
 }

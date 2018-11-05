@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRandevusTable extends Migration
+class CreateCandidateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateRandevusTable extends Migration
      */
     public function up()
     {
-        Schema::create('appointments', function (Blueprint $table) {
-            //
-            $table->increments('id')->unsigned();
+        Schema::create('candidate_languages', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('name');
-            $table->string('email');
-            $table->string('notes', 500);
-            $table->boolean('seen')->default(false);
+            $table->string('level');
+            $table->integer('resume_id')->unsigned();
+            $table->foreign('resume_id')->references('id')->on('resumes')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateRandevusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('candidate_languages');
     }
 }

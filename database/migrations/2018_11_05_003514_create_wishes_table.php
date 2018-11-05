@@ -13,7 +13,7 @@ class CreateWishesTable extends Migration
      */
     public function up()
     {
-        Schema::table('wishes', function (Blueprint $table) {
+        Schema::create('wishes', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name');
@@ -33,8 +33,6 @@ class CreateWishesTable extends Migration
      */
     public function down()
     {
-        Schema::table('wishes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('wishes');
     }
 }

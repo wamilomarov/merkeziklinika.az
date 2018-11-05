@@ -13,7 +13,7 @@ class CreateResumesTable extends Migration
      */
     public function up()
     {
-        Schema::table('resumes', function (Blueprint $table) {
+        Schema::create('resumes', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name');
@@ -29,17 +29,11 @@ class CreateResumesTable extends Migration
             $table->string('driver_license_category')->nullable();
             $table->integer('height');
             $table->string('blood_group');
-            $table->json('education');
-            $table->json('languages');
-            $table->json('computer_knowledge');
             $table->string('military_rank')->nullable();
             $table->string('military_place');
             $table->integer('military_start');
             $table->integer('military_end');
             $table->boolean('conviction');
-            $table->json('experience');
-            $table->json('relatives');
-            $table->json('relatives_working_in_hospital');
             $table->string('address');
             $table->string('phone');
             $table->string('mobile');
@@ -56,8 +50,6 @@ class CreateResumesTable extends Migration
      */
     public function down()
     {
-        Schema::table('resumes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('resumes');
     }
 }

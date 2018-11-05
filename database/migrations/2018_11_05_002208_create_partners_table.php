@@ -13,7 +13,7 @@ class CreatePartnersTable extends Migration
      */
     public function up()
     {
-        Schema::table('partners', function (Blueprint $table) {
+        Schema::create('partners', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name_az');
@@ -33,8 +33,6 @@ class CreatePartnersTable extends Migration
      */
     public function down()
     {
-        Schema::table('partners', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('partners');
     }
 }

@@ -13,7 +13,7 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('settings', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('logo');
@@ -49,8 +49,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('settings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('settings');
     }
 }

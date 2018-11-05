@@ -13,7 +13,7 @@ class CreateEducationalMaterialsTable extends Migration
      */
     public function up()
     {
-        Schema::table('educational_materials', function (Blueprint $table) {
+        Schema::create('educational_materials', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('category', 50);
@@ -32,8 +32,6 @@ class CreateEducationalMaterialsTable extends Migration
      */
     public function down()
     {
-        Schema::table('educational_materials', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('educational_materials');
     }
 }

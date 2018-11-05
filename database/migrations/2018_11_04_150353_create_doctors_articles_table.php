@@ -13,7 +13,7 @@ class CreateDoctorsArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::table('doctors_articles', function (Blueprint $table) {
+        Schema::create('doctors_articles', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->integer('doctor_id')->unsigned();
@@ -39,8 +39,6 @@ class CreateDoctorsArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::table('doctors_articles', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('doctors_articles');
     }
 }

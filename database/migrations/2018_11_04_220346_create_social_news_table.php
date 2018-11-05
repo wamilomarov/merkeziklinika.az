@@ -13,10 +13,10 @@ class CreateSocialNewsTable extends Migration
      */
     public function up()
     {
-        Schema::table('social_news', function (Blueprint $table) {
+        Schema::create('social_news', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
-            $table->string('page_id');
+            $table->integer('page_id')->unsigned();
             $table->string('title');
             $table->string('category');
             $table->string('link');
@@ -32,8 +32,6 @@ class CreateSocialNewsTable extends Migration
      */
     public function down()
     {
-        Schema::table('social_news', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('social_news');
     }
 }

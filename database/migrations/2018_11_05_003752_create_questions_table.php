@@ -13,14 +13,14 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name');
             $table->string('phone');
             $table->string('email');
             $table->string('question', 500);
-            $table->integer('department_id')->nullable();
+            $table->integer('department_id')->nullable()->unsigned();
             $table->boolean('seen')->default(false);
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->timestamps();
@@ -34,8 +34,6 @@ class CreateQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('questions');
     }
 }

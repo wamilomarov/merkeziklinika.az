@@ -13,7 +13,7 @@ class CreateSurveyResultsTable extends Migration
      */
     public function up()
     {
-        Schema::table('survey_results', function (Blueprint $table) {
+        Schema::create('survey_results', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name');
@@ -23,8 +23,8 @@ class CreateSurveyResultsTable extends Migration
             $table->string('email');
             $table->string('learned_from');
             $table->string('appointment_type');
-            $table->integer('department_id')->nullable();
-            $table->integer('branch_id')->nullable();
+            $table->integer('department_id')->nullable()->unsigned();
+            $table->integer('branch_id')->nullable()->unsigned();
             $table->integer('registration')->nullable();
             $table->integer('doctor')->nullable();
             $table->integer('nurse')->nullable();
@@ -50,8 +50,6 @@ class CreateSurveyResultsTable extends Migration
      */
     public function down()
     {
-        Schema::table('survey_results', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('survey_results');
     }
 }

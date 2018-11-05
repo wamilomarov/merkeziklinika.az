@@ -13,10 +13,10 @@ class CreateArticleContentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('article_contents', function (Blueprint $table) {
+        Schema::create('article_contents', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
-            $table->string('page_id');
+            $table->integer('page_id')->unsigned();
             $table->text('text');
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->timestamps();
@@ -30,8 +30,6 @@ class CreateArticleContentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('article_contents', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('article_contents');
     }
 }

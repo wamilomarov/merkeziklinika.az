@@ -13,12 +13,12 @@ class CreateVideoGalleryVideosTable extends Migration
      */
     public function up()
     {
-        Schema::table('video_gallery_videos', function (Blueprint $table) {
+        Schema::create('video_gallery_videos', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->integer('gallery_id')->unsigned();
             $table->string('photo');
-            $table->foreign('gallery_id')->references('id')->on('photo_gallery')->onDelete('cascade');
+            $table->foreign('gallery_id')->references('id')->on('video_gallery')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,8 +30,6 @@ class CreateVideoGalleryVideosTable extends Migration
      */
     public function down()
     {
-        Schema::table('video_gallery_videos', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('video_gallery_videos');
     }
 }

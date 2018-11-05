@@ -13,7 +13,7 @@ class CreateCertificatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('certificates', function (Blueprint $table) {
+        Schema::create('certificates', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('photo');
@@ -30,8 +30,6 @@ class CreateCertificatesTable extends Migration
      */
     public function down()
     {
-        Schema::table('certificates', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('certificates');
     }
 }

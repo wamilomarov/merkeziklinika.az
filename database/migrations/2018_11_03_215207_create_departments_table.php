@@ -13,7 +13,7 @@ class CreateDepartmentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('departments', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name_az');
@@ -34,8 +34,6 @@ class CreateDepartmentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('departments', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('departments');
     }
 }

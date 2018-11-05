@@ -13,7 +13,7 @@ class CreateMedicalAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::table('answers', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('answer', 500);
@@ -30,8 +30,6 @@ class CreateMedicalAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::table('answers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('answers');
     }
 }

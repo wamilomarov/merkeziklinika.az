@@ -13,7 +13,7 @@ class CreateMedicalDevicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('medical_devices', function (Blueprint $table) {
+        Schema::create('medical_devices', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name_az');
@@ -36,8 +36,6 @@ class CreateMedicalDevicesTable extends Migration
      */
     public function down()
     {
-        Schema::table('medical_devices', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('medical_devices');
     }
 }

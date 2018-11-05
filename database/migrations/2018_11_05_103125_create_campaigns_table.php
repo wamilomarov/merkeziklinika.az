@@ -13,7 +13,7 @@ class CreateCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::table('campaigns', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('title_az');
@@ -35,8 +35,6 @@ class CreateCampaignsTable extends Migration
      */
     public function down()
     {
-        Schema::table('campaigns', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('campaigns');
     }
 }

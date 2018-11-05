@@ -13,14 +13,11 @@ class CreateVacanciesTable extends Migration
      */
     public function up()
     {
-        Schema::table('vacancies', function (Blueprint $table) {
+        Schema::create('vacancies', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('position_az');
             $table->string('position_en');
-            $table->string('position_ru');
-            $table->string('position_ru');
-            $table->string('position_ru');
             $table->string('position_ru');
             $table->integer('branch_id')->unsigned();
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
@@ -35,8 +32,6 @@ class CreateVacanciesTable extends Migration
      */
     public function down()
     {
-        Schema::table('vacancies', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('vacancies');
     }
 }

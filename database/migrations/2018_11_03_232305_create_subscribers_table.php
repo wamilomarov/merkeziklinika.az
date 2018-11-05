@@ -13,7 +13,7 @@ class CreateSubscribersTable extends Migration
      */
     public function up()
     {
-        Schema::table('subscribers', function (Blueprint $table) {
+        Schema::create('subscribers', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('email')->unique();
@@ -29,8 +29,6 @@ class CreateSubscribersTable extends Migration
      */
     public function down()
     {
-        Schema::table('subscribers', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('subscribers');
     }
 }

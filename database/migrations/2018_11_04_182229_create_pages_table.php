@@ -13,7 +13,7 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('pages', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('slug');
@@ -35,8 +35,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('pages', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('pages');
     }
 }

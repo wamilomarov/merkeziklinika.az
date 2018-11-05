@@ -13,7 +13,7 @@ class CreateCarouselItemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('carousel_items', function (Blueprint $table) {
+        Schema::create('carousel_items', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('title_az', 200);
@@ -39,8 +39,6 @@ class CreateCarouselItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('carousel_items', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('carousel_items');
     }
 }

@@ -13,7 +13,7 @@ class CreateDoctorsLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('doctors_languages', function (Blueprint $table) {
+        Schema::create('doctors_languages', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->integer('doctor_id')->unsigned();
@@ -30,8 +30,6 @@ class CreateDoctorsLanguagesTable extends Migration
      */
     public function down()
     {
-        Schema::table('doctors_languages', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('doctors_languages');
     }
 }

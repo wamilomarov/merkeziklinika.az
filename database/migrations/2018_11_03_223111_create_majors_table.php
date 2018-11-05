@@ -13,7 +13,7 @@ class CreateMajorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('majors', function (Blueprint $table) {
+        Schema::create('majors', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->string('name_az');
@@ -31,8 +31,6 @@ class CreateMajorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('majors', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('majors');
     }
 }

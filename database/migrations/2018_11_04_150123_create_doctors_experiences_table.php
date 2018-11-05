@@ -13,7 +13,7 @@ class CreateDoctorsExperiencesTable extends Migration
      */
     public function up()
     {
-        Schema::table('doctors_experiences', function (Blueprint $table) {
+        Schema::create('doctors_experiences', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
             $table->integer('doctor_id')->unsigned();
@@ -35,8 +35,6 @@ class CreateDoctorsExperiencesTable extends Migration
      */
     public function down()
     {
-        Schema::table('doctors_experiences', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('doctors_experiences');
     }
 }
