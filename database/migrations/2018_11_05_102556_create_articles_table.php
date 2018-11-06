@@ -22,7 +22,7 @@ class CreateArticlesTable extends Migration
             $table->text('body_az');
             $table->text('body_en');
             $table->text('body_ru');
-            $table->string('photo');
+            $table->string('photo_url');
             $table->integer('views')->default(0);
             $table->integer('doctor_id')->unsigned();
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');

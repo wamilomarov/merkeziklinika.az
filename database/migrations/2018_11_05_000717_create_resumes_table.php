@@ -21,7 +21,7 @@ class CreateResumesTable extends Migration
             $table->string('birth_city');
             $table->string('birth_country');
             $table->string('gender');
-            $table->string('photo');
+            $table->string('photo_url');
             $table->string('citizenship');
             $table->string('family');
             $table->string('passport_number');

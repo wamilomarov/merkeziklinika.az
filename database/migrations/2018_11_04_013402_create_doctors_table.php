@@ -19,7 +19,7 @@ class CreateDoctorsTable extends Migration
             $table->string('full_name_az');
             $table->string('full_name_en');
             $table->string('full_name_ru');
-            $table->string('photo');
+            $table->string('photo_url');
             $table->integer('department_id')->unsigned();
             $table->integer('position_id')->unsigned();
             $table->integer('major_id')->unsigned();

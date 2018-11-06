@@ -22,7 +22,7 @@ class CreateServicesTable extends Migration
             $table->string('description_az', 500);
             $table->string('description_ru', 500);
             $table->string('description_en', 500);
-            $table->string('icon');
+            $table->string('icon_url');
             $table->string('url');
             $table->timestamps();
 

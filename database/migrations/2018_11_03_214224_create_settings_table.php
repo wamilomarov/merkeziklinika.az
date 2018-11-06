@@ -16,14 +16,14 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
-            $table->string('logo');
+            $table->string('logo_url');
             $table->string('address_az');
             $table->string('address_en');
             $table->string('address_ru');
             $table->string('email');
             $table->string('facebook');
             $table->string('linkedin');
-            $table->string('twitter');
+            $table->string('intagram');
             $table->string('youtube');
             $table->string('hospital_phone');
             $table->string('ambulance_phone');

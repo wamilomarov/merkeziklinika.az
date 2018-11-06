@@ -17,7 +17,7 @@ class CreateArticleSlidersTable extends Migration
             //
             $table->increments('id')->unsigned();
             $table->integer('page_id')->unsigned();
-            $table->string('photo');
+            $table->string('photo_url');
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->timestamps();
         });

@@ -22,12 +22,12 @@ class CreateCarouselItemsTable extends Migration
             $table->string('description_az', 500);
             $table->string('description_ru', 500);
             $table->string('description_en', 500);
-            $table->string('photo');
+            $table->string('photo_url');
             $table->string('button_text_az');
             $table->string('button_text_ru');
             $table->string('button_text_en');
             $table->string('url');
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }

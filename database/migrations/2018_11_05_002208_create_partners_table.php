@@ -20,7 +20,7 @@ class CreatePartnersTable extends Migration
             $table->string('name_en');
             $table->string('name_ru');
             $table->string('type');
-            $table->string('photo');
+            $table->string('photo_url');
             $table->string('link');
             $table->timestamps();
         });

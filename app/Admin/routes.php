@@ -2,6 +2,8 @@
 
 use Illuminate\Routing\Router;
 
+\Illuminate\Support\Facades\App::setLocale('az');
+
 Admin::registerAuthRoutes();
 
 Route::group([
@@ -11,5 +13,11 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    $router->resource('branches', BranchController::class);
+    $router->resource('carousel', CarouselItemController::class);
+    $router->resource('departments', DepartmentController::class);
+    $router->resource('services', ServiceController::class);
+    $router->resource('settings', SettingsController::class);
+    $router->resource('positions', PositionController::class);
 
 });

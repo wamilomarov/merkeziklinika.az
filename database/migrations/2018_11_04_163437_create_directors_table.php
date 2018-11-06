@@ -16,7 +16,7 @@ class CreateDirectorsTable extends Migration
         Schema::create('directors', function (Blueprint $table) {
             //
             $table->increments('id')->unsigned();
-            $table->string('photo');
+            $table->string('photo_url');
             $table->string('position_az');
             $table->string('position_en');
             $table->string('position_ru');

@@ -22,7 +22,7 @@ class CreateCampaignsTable extends Migration
             $table->text('text_az');
             $table->text('text_en');
             $table->text('text_ru');
-            $table->string('photo');
+            $table->string('photo_url');
             $table->integer('views');
             $table->timestamps();
         });

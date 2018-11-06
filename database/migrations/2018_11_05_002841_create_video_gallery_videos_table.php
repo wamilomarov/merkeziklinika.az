@@ -17,7 +17,7 @@ class CreateVideoGalleryVideosTable extends Migration
             //
             $table->increments('id')->unsigned();
             $table->integer('gallery_id')->unsigned();
-            $table->string('photo');
+            $table->string('photo_url');
             $table->foreign('gallery_id')->references('id')->on('video_gallery')->onDelete('cascade');
             $table->timestamps();
         });
