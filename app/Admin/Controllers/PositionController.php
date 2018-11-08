@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
@@ -112,10 +113,20 @@ class PositionController extends Controller
     {
         $form = new Form(new Position);
 
-        $form->text('name_az', 'Name az')->rules('required|string|max:255');
-        $form->text('name_en', 'Name en')->rules('required|string|max:255');
-        $form->text('name_ru', 'Name ru')->rules('required|string|max:255');
+        $form->text('name_az', 'Name az')->rules('required|string|max:191');
+        $form->text('name_en', 'Name en')->rules('required|string|max:191');
+        $form->text('name_ru', 'Name ru')->rules('required|string|max:191');
 
         return $form;
+    }
+
+    public function positions(Request $request)
+    {
+        $q = $request->get('q');
+
+        return Position::where('name_az', 'like', "%$q%")
+            ->orWhere('name_en', 'like', "%$q%")
+            ->orWhere('name_ru', 'like', "%$q%")
+            ->paginate(null, ['id', 'name_az as text']);
     }
 }

@@ -2,16 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Department;
+use App\Page;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class PageController extends Controller
 {
     use HasResourceActions;
 
@@ -80,9 +79,9 @@ class DepartmentController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Department);
+        $grid = new Grid(new Page);
 
-        $grid->name('Adı');
+        $grid->name('Name');
 
         return $grid;
     }
@@ -95,14 +94,18 @@ class DepartmentController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Department::findOrFail($id));
+        $show = new Show(Page::findOrFail($id));
 
-        $show->name_az('Adı az');
-        $show->name_en('Adı en');
-        $show->name_ru('Adı ru');
-        $show->information_az('Mətn az');
-        $show->information_en('Mətn en');
-        $show->information_ru('Mətn ru');
+        $show->slug('Slug');
+        $show->name_az('Name az');
+        $show->name_en('Name en');
+        $show->name_ru('Name ru');
+        $show->type('Type');
+        $show->group('Group');
+        $show->parent_id('Parent id')->as(function ($parent_id){
+            $parent = Page::findOrFail($parent_id);
+            return $parent->name;
+        });
 
         return $show;
     }
@@ -114,25 +117,29 @@ class DepartmentController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Department);
+        $form = new Form(new Page);
 
-        $form->text('name_az', 'Adı az')->rules('required|string|max:191');
-        $form->text('name_en', 'Adı en')->rules('required|string|max:191');
-        $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
-        $form->editor('information_az', 'Mətn az')->rules('required|string|max:500');
-        $form->editor('information_en', 'Mətn en')->rules('required|string|max:500');
-        $form->editor('information_ru', 'Mətn ru')->rules('required|string|max:500');
+        $form->tab('Page', function (Form $form){
+            $form->text('slug', 'Slug')->rules('required|string|max:191');
+            $form->text('name_az', 'Name az')->rules('required|string|max:191');
+            $form->text('name_en', 'Name en')->rules('required|string|max:191');
+            $form->text('name_ru', 'Name ru')->rules('required|string|max:191');
+            $form->text('type', 'Type')->rules('required|string|max:191');
+            $form->text('group', 'Group')->rules('required|string|max:191');
+            $form->editor('text_az', 'Text az')->rules('required|string');
+            $form->editor('text_en', 'Text en')->rules('required|string');
+            $form->editor('text_ru', 'Text ru')->rules('required|string');
+            $form->select('parent_id', 'Parent id')
+                ->options(Page::all()->pluck('name_az', 'id'));
+        })->tab('Slides', function (Form $form){
+            $form->hasMany('slides', function (Form\NestedForm $nestedForm){
+                $nestedForm->image('photo_url', 'Slide Photo')
+                    ->uniqueName()->move('images/pages_slides')
+                    ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
+            });
+        });
+
 
         return $form;
-    }
-
-    public function departments(Request $request)
-    {
-        $q = $request->get('q');
-
-        return Department::where('name_az', 'like', "%$q%")
-            ->orWhere('name_en', 'like', "%$q%")
-            ->orWhere('name_ru', 'like', "%$q%")
-            ->paginate(null, ['id', 'name_az as text']);
     }
 }

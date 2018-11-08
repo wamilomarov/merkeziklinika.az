@@ -93,6 +93,8 @@ class SettingsController extends Controller
         $grid->dentistry_phone('Dentistry phone');
         $grid->family_health_phone('Family health phone');
 
+        $grid->disableCreateButton();
+
         return $grid;
     }
 
@@ -141,25 +143,25 @@ class SettingsController extends Controller
         $form = new Form(new Settings);
 
         $form->image('logo_url', 'Logo url')
-            ->uniqueName()->move('services')
+            ->uniqueName()->move('images/settings')
             ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
-        $form->text('address_az', 'Address az')->rules('required|string|max:255');
-        $form->text('address_en', 'Address en')->rules('required|string|max:255');
-        $form->text('address_ru', 'Address ru')->rules('required|string|max:255');
+        $form->text('address_az', 'Address az')->rules('required|string|max:191');
+        $form->text('address_en', 'Address en')->rules('required|string|max:191');
+        $form->text('address_ru', 'Address ru')->rules('required|string|max:191');
         $form->email('email', 'Email')->rules('required|email|unique:branches,email,'.$id);
-        $form->url('facebook', 'Facebook')->rules('required|string|max:255');
-        $form->url('linkedin', 'Linkedin')->rules('required|string|max:255');
-        $form->url('intagram', 'Intagram')->rules('required|string|max:255');
-        $form->url('youtube', 'Youtube')->rules('required|string|max:255');
-        $form->text('hospital_phone', 'Hospital phone')->rules('required|string|max:255');
-        $form->text('ambulance_phone', 'Ambulance phone')->rules('required|string|max:255');
-        $form->text('dentistry_phone', 'Dentistry phone')->rules('required|string|max:255');
-        $form->text('family_health_phone', 'Family health phone')->rules('required|string|max:255');
+        $form->url('facebook', 'Facebook')->rules('required|string|max:191');
+        $form->url('linkedin', 'Linkedin')->rules('required|string|max:191');
+        $form->url('intagram', 'Intagram')->rules('required|string|max:191');
+        $form->url('youtube', 'Youtube')->rules('required|string|max:191');
+        $form->text('hospital_phone', 'Hospital phone')->rules('required|string|max:191');
+        $form->text('ambulance_phone', 'Ambulance phone')->rules('required|string|max:191');
+        $form->text('dentistry_phone', 'Dentistry phone')->rules('required|string|max:191');
+        $form->text('family_health_phone', 'Family health phone')->rules('required|string|max:191');
         $form->decimal('latitude', 'Latitude')->rules('required|numeric');
         $form->decimal('longitude', 'Longitude')->rules('required|numeric');
-        $form->text('short_about_us_heading_az', 'Short about us heading az')->rules('required|string|max:255');
-        $form->text('short_about_us_heading_en', 'Short about us heading en')->rules('required|string|max:255');
-        $form->text('short_about_us_heading_ru', 'Short about us heading ru')->rules('required|string|max:255');
+        $form->text('short_about_us_heading_az', 'Short about us heading az')->rules('required|string|max:191');
+        $form->text('short_about_us_heading_en', 'Short about us heading en')->rules('required|string|max:191');
+        $form->text('short_about_us_heading_ru', 'Short about us heading ru')->rules('required|string|max:191');
         $form->textarea('short_about_us_text_az', 'Short about us text az')->rules('required|string|max:500');
         $form->textarea('short_about_us_text_en', 'Short about us text en')->rules('required|string|max:500');
         $form->textarea('short_about_us_text_ru', 'Short about us text ru')->rules('required|string|max:500');

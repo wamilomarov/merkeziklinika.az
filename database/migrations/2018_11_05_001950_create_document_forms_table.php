@@ -17,7 +17,6 @@ class CreateDocumentFormsTable extends Migration
             //
             $table->increments('id')->unsigned();
             $table->string('type');
-            $table->date('date');
             $table->string('name_az');
             $table->string('name_en');
             $table->string('name_ru');

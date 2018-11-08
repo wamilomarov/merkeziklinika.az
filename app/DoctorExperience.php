@@ -5,22 +5,21 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
-class Position extends Model
+class DoctorExperience extends Model
 {
     //
-    protected $fillable = ['name_az', 'name_en', 'name_ru'];
 
-    protected $appends = ['name'];
+    protected $table = 'doctors_experiences';
+
+    protected $appends = ['name', 'address'];
 
     public function getNameAttribute()
     {
         return $this->{"name_" . App::getLocale()};
     }
 
-    public function doctors()
+    public function getAddressAttribute()
     {
-        return $this->hasMany(Doctor::class);
+        return $this->{"address_" . App::getLocale()};
     }
-
-
 }

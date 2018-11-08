@@ -2,16 +2,16 @@
 
 namespace App\Admin\Controllers;
 
-use App\Department;
+use App\Branch;
+use App\Vacancy;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class VacancyController extends Controller
 {
     use HasResourceActions;
 
@@ -80,9 +80,14 @@ class DepartmentController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Department);
+        $grid = new Grid(new Vacancy);
 
-        $grid->name('Adı');
+        $grid->position('Position');
+        $grid->branch_id('Branch')->display(function ($branch_id){
+            $branch = Branch::findOrFail($branch_id);
+
+            return $branch->name;
+        });
 
         return $grid;
     }
@@ -95,14 +100,16 @@ class DepartmentController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Department::findOrFail($id));
+        $show = new Show(Vacancy::findOrFail($id));
 
-        $show->name_az('Adı az');
-        $show->name_en('Adı en');
-        $show->name_ru('Adı ru');
-        $show->information_az('Mətn az');
-        $show->information_en('Mətn en');
-        $show->information_ru('Mətn ru');
+        $show->position_az('Position az');
+        $show->position_en('Position en');
+        $show->position_ru('Position ru');
+        $show->branch_id('Branch')->as(function ($branch_id){
+            $branch = Branch::findOrFail($branch_id);
+
+            return $branch->name;
+        });
 
         return $show;
     }
@@ -114,25 +121,13 @@ class DepartmentController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Department);
+        $form = new Form(new Vacancy);
 
-        $form->text('name_az', 'Adı az')->rules('required|string|max:191');
-        $form->text('name_en', 'Adı en')->rules('required|string|max:191');
-        $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
-        $form->editor('information_az', 'Mətn az')->rules('required|string|max:500');
-        $form->editor('information_en', 'Mətn en')->rules('required|string|max:500');
-        $form->editor('information_ru', 'Mətn ru')->rules('required|string|max:500');
+        $form->text('position_az', 'Position az')->rules('required|string|max:191');
+        $form->text('position_en', 'Position en')->rules('required|string|max:191');
+        $form->text('position_ru', 'Position ru')->rules('required|string|max:191');
+        $form->select('branch_id', 'Branch')->options(Branch::all()->pluck('name_az', 'id'));
 
         return $form;
-    }
-
-    public function departments(Request $request)
-    {
-        $q = $request->get('q');
-
-        return Department::where('name_az', 'like', "%$q%")
-            ->orWhere('name_en', 'like', "%$q%")
-            ->orWhere('name_ru', 'like', "%$q%")
-            ->paginate(null, ['id', 'name_az as text']);
     }
 }

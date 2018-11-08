@@ -30,9 +30,11 @@ class CreateDoctorsTable extends Migration
             $table->text('bio_az');
             $table->text('bio_en');
             $table->text('bio_ru');
+            $table->boolean('is_guest');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->foreign('major_id')->references('id')->on('majors')->onDelete('cascade');
+            $table->timestamps();
 
         });
     }

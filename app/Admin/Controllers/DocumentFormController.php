@@ -2,16 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Department;
+use App\DocumentForm;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class DocumentFormController extends Controller
 {
     use HasResourceActions;
 
@@ -21,6 +20,9 @@ class DepartmentController extends Controller
      * @param Content $content
      * @return Content
      */
+
+    private $options = ['medical' => 'Tibbi', 'administrative' => 'Inzibati'];
+
     public function index(Content $content)
     {
         return $content
@@ -80,9 +82,13 @@ class DepartmentController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Department);
+        $grid = new Grid(new DocumentForm);
+        $options = ['medical' => 'Tibbi', 'administrative' => 'Inzibati'];
 
-        $grid->name('Adı');
+        $grid->type('Type')->display(function ($type) use ($options){
+            return $options[$type];
+        });
+        $grid->name('Name');
 
         return $grid;
     }
@@ -95,14 +101,17 @@ class DepartmentController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Department::findOrFail($id));
+        $show = new Show(DocumentForm::findOrFail($id));
 
-        $show->name_az('Adı az');
-        $show->name_en('Adı en');
-        $show->name_ru('Adı ru');
-        $show->information_az('Mətn az');
-        $show->information_en('Mətn en');
-        $show->information_ru('Mətn ru');
+        $options = ['medical' => 'Tibbi', 'administrative' => 'Inzibati'];
+
+        $show->type('Type')->as(function($type) use ($options){
+            return $options[$type];
+        });
+        $show->name_az('Name az');
+        $show->name_en('Name en');
+        $show->name_ru('Name ru');
+        $show->link('File')->file();
 
         return $show;
     }
@@ -114,25 +123,14 @@ class DepartmentController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Department);
+        $form = new Form(new DocumentForm);
 
-        $form->text('name_az', 'Adı az')->rules('required|string|max:191');
-        $form->text('name_en', 'Adı en')->rules('required|string|max:191');
-        $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
-        $form->editor('information_az', 'Mətn az')->rules('required|string|max:500');
-        $form->editor('information_en', 'Mətn en')->rules('required|string|max:500');
-        $form->editor('information_ru', 'Mətn ru')->rules('required|string|max:500');
+        $form->select('type', 'Type')->options($this->options);
+        $form->text('name_az', 'Name az')->rules('required|string|max:191');
+        $form->text('name_en', 'Name en')->rules('required|string|max:191');
+        $form->text('name_ru', 'Name ru')->rules('required|string|max:191');
+        $form->file('link', 'File')->uniqueName()->move("files/document_forms");
 
         return $form;
-    }
-
-    public function departments(Request $request)
-    {
-        $q = $request->get('q');
-
-        return Department::where('name_az', 'like', "%$q%")
-            ->orWhere('name_en', 'like', "%$q%")
-            ->orWhere('name_ru', 'like', "%$q%")
-            ->paginate(null, ['id', 'name_az as text']);
     }
 }

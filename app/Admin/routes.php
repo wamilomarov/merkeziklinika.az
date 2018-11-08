@@ -19,5 +19,16 @@ Route::group([
     $router->resource('services', ServiceController::class);
     $router->resource('settings', SettingsController::class);
     $router->resource('positions', PositionController::class);
+    $router->resource('majors', MajorController::class);
+    $router->resource('languages', LanguageController::class);
+    $router->resource('subscribers', SubscriberController::class);
+    $router->resource('news', NewsController::class);
+    $router->resource('doctors', DoctorController::class);
+    $router->resource('directors', DirectorController::class);
+    $router->resource('pages', PageController::class);
+    $router->resource('social_news', SocialNewsController::class);
+    $router->resource('vacancies', VacancyController::class);
+    $router->resource('resumes', ResumeController::class);
+    $router->resource('document_forms', DocumentFormController::class);
 
 });

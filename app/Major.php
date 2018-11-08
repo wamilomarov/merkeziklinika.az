@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
-class Position extends Model
+class Major extends Model
 {
     //
     protected $fillable = ['name_az', 'name_en', 'name_ru'];
@@ -21,6 +21,4 @@ class Position extends Model
     {
         return $this->hasMany(Doctor::class);
     }
-
-
 }

@@ -21,4 +21,9 @@ class Department extends Model
     {
         return $this->{"information_" . App::getLocale()};
     }
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class);
+    }
 }

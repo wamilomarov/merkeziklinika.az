@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
-class Position extends Model
+class Language extends Model
 {
     //
     protected $fillable = ['name_az', 'name_en', 'name_ru'];
@@ -16,11 +16,5 @@ class Position extends Model
     {
         return $this->{"name_" . App::getLocale()};
     }
-
-    public function doctors()
-    {
-        return $this->hasMany(Doctor::class);
-    }
-
 
 }

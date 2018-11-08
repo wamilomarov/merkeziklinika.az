@@ -111,7 +111,7 @@ class CarouselItemController extends Controller
         $show->button_text_az('Düymə mətni az');
         $show->button_text_ru('Düymə mətni ru');
         $show->button_text_en('Düymə mətni en');
-        $show->url('Link');
+        $show->url('Link')->link();
 
         return $show;
     }
@@ -125,19 +125,19 @@ class CarouselItemController extends Controller
     {
         $form = new Form(new CarouselItem);
 
-        $form->text('title_az', 'Başlıq az')->rules('required|string|max:255');
-        $form->text('title_ru', 'Başlıq ru')->rules('required|string|max:255');
-        $form->text('title_en', 'Başlıq en')->rules('required|string|max:255');
+        $form->text('title_az', 'Başlıq az')->rules('required|string|max:191');
+        $form->text('title_ru', 'Başlıq ru')->rules('required|string|max:191');
+        $form->text('title_en', 'Başlıq en')->rules('required|string|max:191');
         $form->text('description_az', 'Mətn az')->rules('required|string|max:500');
         $form->text('description_ru', 'Mətn ru')->rules('required|string|max:500');
         $form->text('description_en', 'Mətn en')->rules('required|string|max:500');
         $form->image('photo_url', 'Şəkil')
-            ->uniqueName()->move('carousel')
+            ->uniqueName()->move('images/carousel')
             ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
         $form->text('button_text_az', 'Düymə mətni az')->rules('required|string|max:50');
         $form->text('button_text_ru', 'Düymə mətni ru')->rules('required|string|max:50');
         $form->text('button_text_en', 'Düymə mətni en')->rules('required|string|max:50');
-        $form->url('url', 'Link')->rules('required|string|max:255');
+        $form->url('url', 'Link')->rules('required|string|max:191')->value(env('APP_URL'));
 
         return $form;
     }

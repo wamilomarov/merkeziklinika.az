@@ -138,12 +138,12 @@ class BranchController extends Controller
     {
         $form = new Form(new Branch);
 
-        $form->text('name_az', 'Adı az')->rules('required|string|max:255');
-        $form->text('name_en', 'Adı en')->rules('required|string|max:255');
-        $form->text('name_ru', 'Adı ru')->rules('required|string|max:255');
-        $form->text('address_az', 'Ünvanı az')->rules('required|string|max:255');
-        $form->text('address_en', 'Ünvanı en')->rules('required|string|max:255');
-        $form->text('address_ru', 'Ünvanı ru')->rules('required|string|max:255');
+        $form->text('name_az', 'Adı az')->rules('required|string|max:191');
+        $form->text('name_en', 'Adı en')->rules('required|string|max:191');
+        $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
+        $form->text('address_az', 'Ünvanı az')->rules('required|string|max:191');
+        $form->text('address_en', 'Ünvanı en')->rules('required|string|max:191');
+        $form->text('address_ru', 'Ünvanı ru')->rules('required|string|max:191');
         $form->email('email', 'Email')->rules('required|email|unique:branches,email,'.$id);
         $form->text('hospital_phone', 'XƏSTƏXANA telefonu')->rules('required');
         $form->text('ambulance_phone', 'AMBULATORİYA telefonu')->rules('required');

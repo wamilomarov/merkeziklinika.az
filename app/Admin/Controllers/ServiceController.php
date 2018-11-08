@@ -124,16 +124,16 @@ class ServiceController extends Controller
     {
         $form = new Form(new Service);
 
-        $form->text('title_az', 'Başlıq az')->rules('required|string|max:255');
-        $form->text('title_ru', 'Başlıq ru')->rules('required|string|max:255');
-        $form->text('title_en', 'Başlıq en')->rules('required|string|max:255');
-        $form->text('description_az', 'Mətn az')->rules('required|string|max:255');
-        $form->text('description_ru', 'Mətn ru')->rules('required|string|max:255');
-        $form->text('description_en', 'Mətn en')->rules('required|string|max:255');
+        $form->text('title_az', 'Başlıq az')->rules('required|string|max:191');
+        $form->text('title_ru', 'Başlıq ru')->rules('required|string|max:191');
+        $form->text('title_en', 'Başlıq en')->rules('required|string|max:191');
+        $form->text('description_az', 'Mətn az')->rules('required|string|max:191');
+        $form->text('description_ru', 'Mətn ru')->rules('required|string|max:191');
+        $form->text('description_en', 'Mətn en')->rules('required|string|max:191');
         $form->image('icon_url', 'Icon')
-            ->uniqueName()->move('services')
+            ->uniqueName()->move('images/services')
             ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
-        $form->url('url', 'Link')->rules('required|string|max:255');
+        $form->url('url', 'Link')->rules('required|string|max:191');
 
         return $form;
     }

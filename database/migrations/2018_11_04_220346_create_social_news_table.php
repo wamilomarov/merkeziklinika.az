@@ -17,7 +17,9 @@ class CreateSocialNewsTable extends Migration
             //
             $table->increments('id')->unsigned();
             $table->integer('page_id')->unsigned();
-            $table->string('title');
+            $table->string('title_az');
+            $table->string('title_en');
+            $table->string('title_ru');
             $table->string('category');
             $table->string('link');
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');

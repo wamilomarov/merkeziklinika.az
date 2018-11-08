@@ -22,6 +22,9 @@ class CreatePagesTable extends Migration
             $table->string('name_ru');
             $table->string('type');
             $table->string('group');
+            $table->text('text_az');
+            $table->text('text_en');
+            $table->text('text_ru');
             $table->integer('parent_id')->unsigned();
             $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');
             $table->timestamps();

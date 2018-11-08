@@ -24,4 +24,9 @@ class Branch extends Model
     {
         return $this->{"address_" . App::getLocale()};
     }
+
+    public function vacancies()
+    {
+        return $this->hasMany(Vacancy::class);
+    }
 }

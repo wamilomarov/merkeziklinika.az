@@ -26,7 +26,6 @@ class CreateDoctorsArticlesTable extends Migration
             $table->string('publication_az');
             $table->string('publication_en');
             $table->string('publication_ru');
-            $table->boolean('is_guest');
             $table->timestamps();
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
         });

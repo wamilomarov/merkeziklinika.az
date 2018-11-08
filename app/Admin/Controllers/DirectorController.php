@@ -2,16 +2,15 @@
 
 namespace App\Admin\Controllers;
 
-use App\Department;
+use App\Director;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
-use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class DirectorController extends Controller
 {
     use HasResourceActions;
 
@@ -80,9 +79,11 @@ class DepartmentController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Department);
+        $grid = new Grid(new Director);
 
-        $grid->name('Adı');
+        $grid->position('Position');
+        $grid->full_name('Full name');
+        $grid->title('Title');
 
         return $grid;
     }
@@ -95,14 +96,18 @@ class DepartmentController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Department::findOrFail($id));
+        $show = new Show(Director::findOrFail($id));
 
-        $show->name_az('Adı az');
-        $show->name_en('Adı en');
-        $show->name_ru('Adı ru');
-        $show->information_az('Mətn az');
-        $show->information_en('Mətn en');
-        $show->information_ru('Mətn ru');
+        $show->photo('Photo')->image();
+        $show->position_az('Position az');
+        $show->position_en('Position en');
+        $show->position_ru('Position ru');
+        $show->full_name_az('Full name az');
+        $show->full_name_en('Full name en');
+        $show->full_name_ru('Full name ru');
+        $show->title_az('Title az');
+        $show->title_en('Title en');
+        $show->title_ru('Title ru');
 
         return $show;
     }
@@ -114,25 +119,21 @@ class DepartmentController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Department);
+        $form = new Form(new Director);
 
-        $form->text('name_az', 'Adı az')->rules('required|string|max:191');
-        $form->text('name_en', 'Adı en')->rules('required|string|max:191');
-        $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
-        $form->editor('information_az', 'Mətn az')->rules('required|string|max:500');
-        $form->editor('information_en', 'Mətn en')->rules('required|string|max:500');
-        $form->editor('information_ru', 'Mətn ru')->rules('required|string|max:500');
+        $form->image('photo_url', 'Photo url')
+            ->uniqueName()->move('images/directors')
+            ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
+        $form->text('position_az', 'Position az')->rules('required|string|max:191');
+        $form->text('position_en', 'Position en')->rules('required|string|max:191');
+        $form->text('position_ru', 'Position ru')->rules('required|string|max:191');
+        $form->text('full_name_az', 'Full name az')->rules('required|string|max:191');
+        $form->text('full_name_en', 'Full name en')->rules('required|string|max:191');
+        $form->text('full_name_ru', 'Full name ru')->rules('required|string|max:191');
+        $form->text('title_az', 'Title az')->rules('required|string|max:191');
+        $form->text('title_en', 'Title en')->rules('required|string|max:191');
+        $form->text('title_ru', 'Title ru')->rules('required|string|max:191');
 
         return $form;
-    }
-
-    public function departments(Request $request)
-    {
-        $q = $request->get('q');
-
-        return Department::where('name_az', 'like', "%$q%")
-            ->orWhere('name_en', 'like', "%$q%")
-            ->orWhere('name_ru', 'like', "%$q%")
-            ->paginate(null, ['id', 'name_az as text']);
     }
 }
