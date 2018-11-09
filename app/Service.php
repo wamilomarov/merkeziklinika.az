@@ -26,6 +26,6 @@ class Service extends Model
 
     public function getIconAttribute()
     {
-        return env('APP_URL') . "/uploads/images/" . $this->icon_url;
+        return env('APP_URL') . "/uploads/images/services/" . $this->icon_url;
     }
 }

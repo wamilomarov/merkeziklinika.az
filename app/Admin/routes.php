@@ -30,5 +30,6 @@ Route::group([
     $router->resource('vacancies', VacancyController::class);
     $router->resource('resumes', ResumeController::class);
     $router->resource('document_forms', DocumentFormController::class);
+    $router->resource('partners', PartnerController::class);
 
 });
