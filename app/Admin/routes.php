@@ -31,5 +31,7 @@ Route::group([
     $router->resource('resumes', ResumeController::class);
     $router->resource('document_forms', DocumentFormController::class);
     $router->resource('partners', PartnerController::class);
+    $router->resource('photo_gallery', PhotoGalleryController::class);
+    $router->resource('video_gallery', VideoGalleryController::class);
 
 });
