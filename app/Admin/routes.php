@@ -44,5 +44,6 @@ Route::group([
     $router->resource('medical_articles', MedicalArticleController::class);
     $router->resource('campaigns', CampaignController::class);
     $router->resource('contact_form_messages', ContactFormMessageController::class);
+    $router->resource('files', FileController::class);
 
 });
