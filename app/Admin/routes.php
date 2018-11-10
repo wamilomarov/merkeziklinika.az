@@ -35,5 +35,6 @@ Route::group([
     $router->resource('video_gallery', VideoGalleryController::class);
     $router->resource('appointments', AppointmentController::class);
     $router->resource('wishes', WishController::class);
+    $router->resource('questions', QuestionController::class);
 
 });

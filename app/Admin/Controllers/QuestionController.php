@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Wish;
+use App\Question;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class WishController extends Controller
+class QuestionController extends Controller
 {
     use HasResourceActions;
 
@@ -79,22 +79,17 @@ class WishController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Wish);
+        $grid = new Grid(new Question);
         $grid->model()->orderBy('id', 'desc');
 
-        $grid->disableActions();
         $grid->disableCreateButton();
+        $grid->disableActions();
 
-        $options = ['wish' => 'Dilək', 'gratitude' => 'Təşəkkür', 'complaint' => 'Şikayət'];
         $grid->name('Name');
-        $grid->purpose('Purpose')->display(function ($purpose) use ($options){
-            return $options[$purpose];
-        });
-        $grid->notes('Notes');
+        $grid->department('Department')->name();
         $grid->seen('Seen')->display(function ($seen){
             return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
         });
-
         $grid->actions(function (Grid\Displayers\Actions $actions){
             $actions->disableEdit();
             $actions->disableDelete();
@@ -111,20 +106,16 @@ class WishController extends Controller
      */
     protected function detail($id)
     {
-        $wish = Wish::findOrFail($id);
-        $show = new Show($wish);
+        $show = new Show(Question::findOrFail($id));
 
         $show->name('Name');
         $show->phone('Phone');
         $show->email('Email');
-        $show->purpose('Purpose');
-        $show->notes('Notes');
+        $show->question('Question');
+        $show->department('Department')->name();
+        $show->seen('Seen')->using([false => 'No', true => 'Yes']);
+        $show->created_at('Created at');
 
-        if ($wish->seen == false)
-        {
-            $wish->seen = true;
-            $wish->save();
-        }
         return $show;
     }
 
@@ -135,13 +126,14 @@ class WishController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Wish);
+        $form = new Form(new Question);
 
         $form->text('name', 'Name');
         $form->mobile('phone', 'Phone');
         $form->email('email', 'Email');
-        $form->text('purpose', 'Purpose');
-        $form->text('notes', 'Notes');
+        $form->text('question', 'Question');
+        $form->number('department_id', 'Department id');
+        $form->switch('seen', 'Seen');
 
         return $form;
     }

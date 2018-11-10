@@ -80,20 +80,21 @@ class ResumeController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Resume);
+        $grid->model()->orderBy('id', 'desc');
 
-        $grid->id('Id');
-        $grid->name('Name');
-        $grid->birth_date('Birth date');
-        $grid->birth_city('Birth city');
-        $grid->birth_country('Birth country');
-        $grid->gender('Gender');
-        $grid->photo_url('Photo url');
-        $grid->citizenship('Citizenship');
-        $grid->family('Family');
+        $grid->name('Ad Soyad');
+        $grid->birth_date('Doğulduğu tarix');
+        $grid->column('Doğulduğu yer')->display(function (){
+            return "$this->birth_city, $this->birth_country";
+        });
+        $grid->gender('Gender')->using(['f' => "Female", 'm' => "Male"]);
+        $grid->photo('Foto')->image(null, 100, 100);
+        $grid->citizenship('Vətəndaşlığı');
+        $grid->family('Ailə vəziyyəti')->using(['m' => 'Evli', 's' => 'Subay']);
         $grid->passport_number('Passport number');
         $grid->passport_given_date('Passport given date');
-        $grid->driver_license_category('Driver license category');
-        $grid->height('Height');
+        $grid->driver_license_category('Sürücülkük vəsiqəsi');
+        $grid->height('Boyunuz');
         $grid->blood_group('Blood group');
         $grid->military_rank('Military rank');
         $grid->military_place('Military place');

@@ -80,7 +80,7 @@ class AppointmentController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Appointment);
-        $grid->orderBy('id', 'desc');
+        $grid->model()->orderBy('id', 'desc');
 
         $grid->disableCreateButton();
         $grid->disableActions();
@@ -91,8 +91,9 @@ class AppointmentController extends Controller
             return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
         });
 
-        $grid->column('id', 'Actions')->display(function ($id){
-            return "<a href='" .  url("admin/appointments/{$id}") . "'><i class='fa fa-eye'></i></a>";
+        $grid->actions(function (Grid\Displayers\Actions $actions){
+            $actions->disableEdit();
+            $actions->disableDelete();
         });
 
         return $grid;
