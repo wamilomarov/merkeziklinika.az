@@ -27,6 +27,6 @@ class Director extends Model
 
     public function getPhotoAttribute()
     {
-        return env('APP_URL') . "/uploads/images/directors/" . $this->photo_url;
+        return env('STORAGE_URL') . $this->photo_url;
     }
 }
