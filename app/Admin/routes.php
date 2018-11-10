@@ -36,5 +36,8 @@ Route::group([
     $router->resource('appointments', AppointmentController::class);
     $router->resource('wishes', WishController::class);
     $router->resource('questions', QuestionController::class);
+    $router->resource('survey_results', SurveyResultController::class);
+    $router->resource('medical_devices', MedicalDeviceCategoryController::class);
+    $router->resource('patient_rights', PatientRightController::class);
 
 });

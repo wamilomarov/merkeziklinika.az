@@ -83,7 +83,6 @@ class AppointmentController extends Controller
         $grid->model()->orderBy('id', 'desc');
 
         $grid->disableCreateButton();
-        $grid->disableActions();
 
         $grid->name('Name');
         $grid->email('Email');

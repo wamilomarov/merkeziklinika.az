@@ -81,6 +81,7 @@ class ResumeController extends Controller
     {
         $grid = new Grid(new Resume);
         $grid->model()->orderBy('id', 'desc');
+        $grid->disableCreateButton();
 
         $grid->name('Ad Soyad');
         $grid->birth_date('Doğulduğu tarix');
@@ -107,7 +108,12 @@ class ResumeController extends Controller
         $grid->email('Email');
         $grid->seen('Seen');
         $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+
+        $grid->actions(function (Grid\Displayers\Actions $actions){
+            $actions->disableEdit();
+            $actions->disableDelete();
+        });
+
 
         return $grid;
     }

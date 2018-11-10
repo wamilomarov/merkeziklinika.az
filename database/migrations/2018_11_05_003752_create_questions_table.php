@@ -19,7 +19,8 @@ class CreateQuestionsTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('email');
-            $table->string('question', 500);
+            $table->string('question', 1000);
+            $table->text('answer')->default(null);
             $table->integer('department_id')->nullable()->unsigned();
             $table->boolean('seen')->default(false);
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');

@@ -119,9 +119,9 @@ class DepartmentController extends Controller
         $form->text('name_az', 'Adı az')->rules('required|string|max:191');
         $form->text('name_en', 'Adı en')->rules('required|string|max:191');
         $form->text('name_ru', 'Adı ru')->rules('required|string|max:191');
-        $form->editor('information_az', 'Mətn az')->rules('required|string|max:500');
-        $form->editor('information_en', 'Mətn en')->rules('required|string|max:500');
-        $form->editor('information_ru', 'Mətn ru')->rules('required|string|max:500');
+        $form->editor('information_az', 'Mətn az')->rules('required|string');
+        $form->editor('information_en', 'Mətn en')->rules('required|string');
+        $form->editor('information_ru', 'Mətn ru')->rules('required|string');
 
         return $form;
     }

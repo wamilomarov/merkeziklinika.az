@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Wish;
+use App\SurveyResult;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class WishController extends Controller
+class SurveyResultController extends Controller
 {
     use HasResourceActions;
 
@@ -79,21 +79,17 @@ class WishController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Wish);
+        $grid = new Grid(new SurveyResult);
         $grid->model()->orderBy('id', 'desc');
-
         $grid->disableCreateButton();
 
-        $options = ['wish' => 'Dilək', 'gratitude' => 'Təşəkkür', 'complaint' => 'Şikayət'];
-        $grid->name('Name');
-        $grid->purpose('Purpose')->display(function ($purpose) use ($options){
-            return $options[$purpose];
-        });
-        $grid->notes('Notes');
+        $grid->name('Ad, soyad');
+        $grid->department('Şöbə / Bölmə')->name();
+        $grid->branch('Filial')->name();
         $grid->seen('Seen')->display(function ($seen){
             return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
         });
-
+        $grid->created_at('Created at');
         $grid->actions(function (Grid\Displayers\Actions $actions){
             $actions->disableEdit();
             $actions->disableDelete();
@@ -110,20 +106,32 @@ class WishController extends Controller
      */
     protected function detail($id)
     {
-        $wish = Wish::findOrFail($id);
-        $show = new Show($wish);
+        $show = new Show(SurveyResult::findOrFail($id));
 
-        $show->name('Name');
-        $show->phone('Phone');
+        $show->name('Ad, soyad ');
+        $show->age('Yaş ');
+        $show->gender('Cinsi')->using(['m' => 'Kişi', 'f' => 'Qadın']);
+        $show->phone('Telefon ');
         $show->email('Email');
-        $show->purpose('Purpose');
-        $show->notes('Notes');
+        $show->learned_from('Mərkəzi Klinikadan necə xəbərdar oldu');
+        $show->appointment_type('Həkim qəbuluna hansı üsulla yazıldı');
+        $show->department('Şöbə / Bölmə')->name();
+        $show->branch('Filial')->name();
+        $show->registration('Qeydiyyət şöbəsi');
+        $show->doctor('Həkim');
+        $show->nurse('Tibb bacısı');
+        $show->laboratory('Tibbi laboratoriya');
+        $show->diagnostics('Funksional diaqnostika');
+        $show->hygiene('Klinikanın sanitar-gigiyenik vəziyyəti');
+        $show->ambulance('Tibbi yardımın keyfiyyəti');
+        $show->meal_quality('Qidanın keyfiyyəti');
+        $show->imaging('Tibbi görüntüləmə');
+        $show->waited('Müayinə olunmaq üçün gözlədi');
+        $show->notes('Şərhlər');
+        $show->suggestions('Təkliflər');
+        $show->seen('Seen')->using([true => 'Yes', false => 'No']);
+        $show->created_at('Zaman');
 
-        if ($wish->seen == false)
-        {
-            $wish->seen = true;
-            $wish->save();
-        }
         return $show;
     }
 
@@ -134,13 +142,29 @@ class WishController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Wish);
+        $form = new Form(new SurveyResult);
 
         $form->text('name', 'Name');
+        $form->number('age', 'Age');
+        $form->text('gender', 'Gender');
         $form->mobile('phone', 'Phone');
         $form->email('email', 'Email');
-        $form->text('purpose', 'Purpose');
+        $form->text('learned_from', 'Learned from');
+        $form->text('appointment_type', 'Appointment type');
+        $form->number('department_id', 'Department id');
+        $form->number('branch_id', 'Branch id');
+        $form->number('registration', 'Registration');
+        $form->number('doctor', 'Doctor');
+        $form->number('nurse', 'Nurse');
+        $form->number('laboratory', 'Laboratory');
+        $form->number('diagnostics', 'Diagnostics');
+        $form->number('hygiene', 'Hygiene');
+        $form->number('ambulance', 'Ambulance');
+        $form->number('imaging', 'Imaging');
+        $form->number('waited', 'Waited');
         $form->text('notes', 'Notes');
+        $form->text('suggestions', 'Suggestions');
+        $form->switch('seen', 'Seen');
 
         return $form;
     }

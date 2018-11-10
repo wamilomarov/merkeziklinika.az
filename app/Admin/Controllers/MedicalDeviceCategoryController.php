@@ -3,7 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Department;
-use App\Question;
+use App\MedicalDeviceCategory;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -11,7 +11,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class QuestionController extends Controller
+class MedicalDeviceCategoryController extends Controller
 {
     use HasResourceActions;
 
@@ -80,18 +80,9 @@ class QuestionController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Question);
-        $grid->model()->orderBy('id', 'desc');
-
-        $grid->disableCreateButton();
+        $grid = new Grid(new MedicalDeviceCategory);
 
         $grid->name('Name');
-        $grid->department('Department')->name();
-        $grid->seen('Seen')->display(function ($seen){
-            return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
-        });
-
-
 
         return $grid;
     }
@@ -104,19 +95,16 @@ class QuestionController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Question::findOrFail($id));
+        $show = new Show(MedicalDeviceCategory::findOrFail($id));
 
-        $show->name('Name');
-        $show->phone('Phone');
-        $show->email('Email');
-        $show->question('Question');
-        $show->department_id('Department')->as(function ($department_id){
-            $department = Department::findOrFail($department_id);
-            return $department->name;
-        });
-        $show->seen('Seen')->using([false => 'No', true => 'Yes']);
-        $show->answer('Cavab');
-        $show->created_at('Created at');
+        $show->name_az('Name az');
+        $show->name_en('Name en');
+        $show->name_ru('Name ru');
+        $show->production_date('Production date');
+        $show->manufacturer('Manufacturer');
+        $show->model('Model');
+        $show->department_id('Department id');
+        $show->information('Information');
 
         return $show;
     }
@@ -128,14 +116,29 @@ class QuestionController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Question);
+        $form = new Form(new MedicalDeviceCategory);
 
-        $form->textarea('answer', 'Cavab')->rules("required|string");
+        $form->tab("Category", function (Form $form){
+            $form->text('name_az', 'Name az')->rules('required|string|max:191');
+            $form->text('name_en', 'Name en')->rules('required|string|max:191');
+            $form->text('name_ru', 'Name ru')->rules('required|string|max:191');
+        })->tab("Avadanlıqlar", function (Form $form){
+            return $form->hasMany('devices', function (Form\NestedForm $nestedForm){
+                $nestedForm->text('name_az', 'Name az')->rules('required|string|max:191');
+                $nestedForm->text('name_en', 'Name en')->rules('required|string|max:191');
+                $nestedForm->text('name_ru', 'Name ru')->rules('required|string|max:191');
+                $nestedForm->date('production_date', 'Production date')->default(date('Y-m-d'));
+                $nestedForm->text('manufacturer', 'Manufacturer');
+                $nestedForm->text('model', 'Model');
+                $nestedForm->select('department_id', 'Department')
+                    ->options(function (){
+                        return Department::all()->pluck('name_az', 'id');
+                    });
+                $nestedForm->editor('information', 'Information');
+            });
 
-        $form->saved(function (Form $form){
-            $form->model()->seen = true;
-            $form->model()->save();
         });
+
 
         return $form;
     }

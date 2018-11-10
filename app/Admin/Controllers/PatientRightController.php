@@ -2,8 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Department;
-use App\Question;
+use App\PatientRight;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -11,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class QuestionController extends Controller
+class PatientRightController extends Controller
 {
     use HasResourceActions;
 
@@ -80,18 +79,9 @@ class QuestionController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new Question);
-        $grid->model()->orderBy('id', 'desc');
+        $grid = new Grid(new PatientRight);
 
-        $grid->disableCreateButton();
-
-        $grid->name('Name');
-        $grid->department('Department')->name();
-        $grid->seen('Seen')->display(function ($seen){
-            return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
-        });
-
-
+        $grid->title('Title');
 
         return $grid;
     }
@@ -104,19 +94,14 @@ class QuestionController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(Question::findOrFail($id));
+        $show = new Show(PatientRight::findOrFail($id));
 
-        $show->name('Name');
-        $show->phone('Phone');
-        $show->email('Email');
-        $show->question('Question');
-        $show->department_id('Department')->as(function ($department_id){
-            $department = Department::findOrFail($department_id);
-            return $department->name;
-        });
-        $show->seen('Seen')->using([false => 'No', true => 'Yes']);
-        $show->answer('Cavab');
-        $show->created_at('Created at');
+        $show->title_az('Title az');
+        $show->title_en('Title en');
+        $show->title_ru('Title ru');
+        $show->body_az('Body az');
+        $show->body_en('Body en');
+        $show->body_ru('Body ru');
 
         return $show;
     }
@@ -128,14 +113,14 @@ class QuestionController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new Question);
+        $form = new Form(new PatientRight);
 
-        $form->textarea('answer', 'Cavab')->rules("required|string");
-
-        $form->saved(function (Form $form){
-            $form->model()->seen = true;
-            $form->model()->save();
-        });
+        $form->text('title_az', 'Title az')->rules("required|string|max:191");
+        $form->text('title_en', 'Title en')->rules("required|string|max:191");
+        $form->text('title_ru', 'Title ru')->rules("required|string|max:191");
+        $form->editor('body_az', 'Body az')->rules("required|string");
+        $form->editor('body_en', 'Body en')->rules("required|string");
+        $form->editor('body_ru', 'Body ru')->rules("required|string");
 
         return $form;
     }

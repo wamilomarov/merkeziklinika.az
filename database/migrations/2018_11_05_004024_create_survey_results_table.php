@@ -33,6 +33,7 @@ class CreateSurveyResultsTable extends Migration
             $table->integer('hygiene')->nullable();
             $table->integer('ambulance')->nullable();
             $table->integer('imaging')->nullable();
+            $table->integer('meal_quality')->nullable();
             $table->integer('waited')->nullable();
             $table->string('notes', 500)->nullable();
             $table->string('suggestions', 500)->nullable();

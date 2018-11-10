@@ -29,4 +29,9 @@ class Branch extends Model
     {
         return $this->hasMany(Vacancy::class);
     }
+
+    public function surveyResults()
+    {
+        $this->hasMany(SurveyResult::class);
+    }
 }
