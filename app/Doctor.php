@@ -78,5 +78,15 @@ class Doctor extends Model
         return $this->hasMany(DoctorMembership::class);
     }
 
+    public function medical_articles()
+    {
+        return $this->hasMany(MedicalArticle::class);
+    }
+
+    public function web_articles()
+    {
+        $this->hasMany(Article::class);
+    }
+
 
 }

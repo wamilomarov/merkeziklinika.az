@@ -39,5 +39,10 @@ Route::group([
     $router->resource('survey_results', SurveyResultController::class);
     $router->resource('medical_devices', MedicalDeviceCategoryController::class);
     $router->resource('patient_rights', PatientRightController::class);
+    $router->resource('educational_materials', EducationalMaterialController::class);
+    $router->resource('articles', ArticleController::class);
+    $router->resource('medical_articles', MedicalArticleController::class);
+    $router->resource('campaigns', CampaignController::class);
+    $router->resource('contact_form_messages', ContactFormMessageController::class);
 
 });

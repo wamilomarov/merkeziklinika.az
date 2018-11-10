@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\News;
+use App\ContactFormMessage;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class NewsController extends Controller
+class ContactFormMessageController extends Controller
 {
     use HasResourceActions;
 
@@ -79,15 +79,21 @@ class NewsController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new News);
-        $grid->orderBy('id', 'desc');
+        $grid = new Grid(new ContactFormMessage);
+        $grid->model()->orderBy('id', 'desc');
+        $grid->disableCreateButton();
 
-        $grid->title('Title');
-        $grid->text('Content')->display(function ($text){
-            return str_limit($text, 20);
+        $grid->name('Name');
+        $grid->email('Email');
+        $grid->topic('Topic');
+        $grid->seen('Seen')->display(function ($seen){
+            return $seen == false ? "<i class='fa fa-clock-o'></i>" : "<i class='fa fa-check' style='color: green;'></i>";
         });
-        $grid->photo('Photo')->image(null, 100, 100);
-        $grid->views('Views');
+
+        $grid->actions(function (Grid\Displayers\Actions $actions){
+            $actions->disableEdit();
+            $actions->disableDelete();
+        });
 
         return $grid;
     }
@@ -100,16 +106,19 @@ class NewsController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(News::findOrFail($id));
+        $show = new Show(ContactFormMessage::findOrFail($id));
 
-        $show->title_az('Title az');
-        $show->title_en('Title en');
-        $show->title_ru('Title ru');
-        $show->text_az('Text az');
-        $show->text_en('Text en');
-        $show->text_ru('Text ru');
-        $show->photo('Photo')->image();
-        $show->views('Views');
+        $show->name('Name');
+        $show->email('Email');
+        $show->topic('Topic');
+        $show->message('Message');
+        $show->created_at('Created at');
+
+        if ($show->getModel()->seen == false)
+        {
+            $show->getModel()->seen = true;
+            $show->getModel()->save();
+        }
 
         return $show;
     }
@@ -121,17 +130,13 @@ class NewsController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new News);
+        $form = new Form(new ContactFormMessage);
 
-        $form->text('title_az', 'Title az')->rules('required|string|max:191');
-        $form->text('title_en', 'Title en')->rules('required|string|max:191');
-        $form->text('title_ru', 'Title ru')->rules('required|string|max:191');
-        $form->editor('text_az', 'Text az')->rules('required|string');
-        $form->editor('text_en', 'Text en')->rules('required|string');
-        $form->editor('text_ru', 'Text ru')->rules('required|string');
-        $form->image('photo_url', 'Photo')
-            ->uniqueName()->move('images/news')
-            ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
+        $form->text('name', 'Name');
+        $form->email('email', 'Email');
+        $form->text('topic', 'Topic');
+        $form->text('message', 'Message');
+        $form->switch('seen', 'Seen');
 
         return $form;
     }

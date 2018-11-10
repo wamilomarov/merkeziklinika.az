@@ -2,7 +2,8 @@
 
 namespace App\Admin\Controllers;
 
-use App\News;
+use App\Doctor;
+use App\MedicalArticle;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +11,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class NewsController extends Controller
+class MedicalArticleController extends Controller
 {
     use HasResourceActions;
 
@@ -79,15 +80,10 @@ class NewsController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new News);
-        $grid->orderBy('id', 'desc');
+        $grid = new Grid(new MedicalArticle);
 
-        $grid->title('Title');
-        $grid->text('Content')->display(function ($text){
-            return str_limit($text, 20);
-        });
-        $grid->photo('Photo')->image(null, 100, 100);
-        $grid->views('Views');
+        $grid->name('Name');
+        $grid->doctor('Doctor')->name();
 
         return $grid;
     }
@@ -100,16 +96,16 @@ class NewsController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(News::findOrFail($id));
+        $show = new Show(MedicalArticle::findOrFail($id));
 
-        $show->title_az('Title az');
-        $show->title_en('Title en');
-        $show->title_ru('Title ru');
-        $show->text_az('Text az');
-        $show->text_en('Text en');
-        $show->text_ru('Text ru');
-        $show->photo('Photo')->image();
-        $show->views('Views');
+        $show->name_az('Name az');
+        $show->name_en('Name en');
+        $show->name_ru('Name ru');
+        $show->link('Link')->file();
+        $show->doctor_id('Doctor')->as(function ($id){
+            $doctor = Doctor::findOrFail($id);
+            return $doctor->name;
+        });
 
         return $show;
     }
@@ -121,17 +117,16 @@ class NewsController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new News);
+        $form = new Form(new MedicalArticle);
 
-        $form->text('title_az', 'Title az')->rules('required|string|max:191');
-        $form->text('title_en', 'Title en')->rules('required|string|max:191');
-        $form->text('title_ru', 'Title ru')->rules('required|string|max:191');
-        $form->editor('text_az', 'Text az')->rules('required|string');
-        $form->editor('text_en', 'Text en')->rules('required|string');
-        $form->editor('text_ru', 'Text ru')->rules('required|string');
-        $form->image('photo_url', 'Photo')
-            ->uniqueName()->move('images/news')
-            ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
+        $form->text('name_az', 'Name az')->rules("required|string|max:191");
+        $form->text('name_en', 'Name en')->rules("required|string|max:191");
+        $form->text('name_ru', 'Name ru')->rules("required|string|max:191");
+        $form->file('link', 'File')->uniqueName()
+            ->move('files/medical_articles')->rules('required|file');
+        $form->select('doctor_id', 'Doctor')->options(function (){
+            return Doctor::all()->pluck('full_name_az', 'id');
+        });
 
         return $form;
     }

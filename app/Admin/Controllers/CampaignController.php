@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\News;
+use App\Campaign;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class NewsController extends Controller
+class CampaignController extends Controller
 {
     use HasResourceActions;
 
@@ -79,14 +79,9 @@ class NewsController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new News);
-        $grid->orderBy('id', 'desc');
+        $grid = new Grid(new Campaign);
 
         $grid->title('Title');
-        $grid->text('Content')->display(function ($text){
-            return str_limit($text, 20);
-        });
-        $grid->photo('Photo')->image(null, 100, 100);
         $grid->views('Views');
 
         return $grid;
@@ -100,7 +95,7 @@ class NewsController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(News::findOrFail($id));
+        $show = new Show(Campaign::findOrFail($id));
 
         $show->title_az('Title az');
         $show->title_en('Title en');
@@ -121,7 +116,7 @@ class NewsController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new News);
+        $form = new Form(new Campaign);
 
         $form->text('title_az', 'Title az')->rules('required|string|max:191');
         $form->text('title_en', 'Title en')->rules('required|string|max:191');
@@ -129,8 +124,7 @@ class NewsController extends Controller
         $form->editor('text_az', 'Text az')->rules('required|string');
         $form->editor('text_en', 'Text en')->rules('required|string');
         $form->editor('text_ru', 'Text ru')->rules('required|string');
-        $form->image('photo_url', 'Photo')
-            ->uniqueName()->move('images/news')
+        $form->image('photo_url', 'Photo')->uniqueName()->move('images/campaigns')
             ->rules('required|image|max:2048|mimetypes:image/png,image/jpg,image/jpeg|mimes:jpg,jpeg,png');
 
         return $form;
